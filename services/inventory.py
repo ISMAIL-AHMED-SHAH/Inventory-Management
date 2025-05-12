@@ -6,13 +6,15 @@ import json
 import os
 
 class Inventory:
-    def __init__(self):
+    def __init__(self, data_file="data/inventory.json"):
         self._products = {}
+        self.data_file = data_file  # Store the file path for saving/loading inventory
 
     def add_product(self, product):
         if product.product_id in self._products:
             raise ValueError("Product ID already exists.")
         self._products[product.product_id] = product
+        self.save_to_file(self.data_file)  # Automatically save after adding a product
 
     def remove_product(self, product_id):
         self._products.pop(product_id, None)
@@ -30,11 +32,13 @@ class Inventory:
         if product_id not in self._products:
             raise ValueError("Product not found.")
         self._products[product_id].sell(quantity)
+        self.save_to_file(self.data_file)
 
     def restock_product(self, product_id, quantity):
         if product_id not in self._products:
             raise ValueError("Product not found.")
         self._products[product_id].restock(quantity)
+        self.save_to_file(self.data_file) 
 
     def total_inventory_value(self):
         return sum(p.get_total_value() for p in self._products.values())
@@ -61,7 +65,7 @@ class Inventory:
         with open(filename, 'r') as f:
             data = json.load(f)
             for item in data:
-                ptype = item.pop("__type__")
+                ptype = item.pop("__type__", None)  # Use .pop with a default value
                 cls_map = {
                     "Electronics": Electronics,
                     "Grocery": Grocery,
@@ -69,5 +73,7 @@ class Inventory:
                 }
                 cls = cls_map.get(ptype)
                 if cls:
+                    # Map 'quantity' to 'quantity_in_stock' for compatibility
+                    item["quantity_in_stock"] = item.pop("quantity", 0)  # Default to 0 if 'quantity' is missing
                     product = cls(**item)
                     self.add_product(product)

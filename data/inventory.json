@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "__type__": "Electronics",
+    "product_id": "0001",
+    "name": "Laptop",
+    "price": 74999.99,
+    "quantity": 1,
+    "brand": "hp",
+    "warranty": 5
+  },
+  {
+    "__type__": "Electronics",
+    "product_id": "0002",
+    "name": "Laptop",
+    "price": 75000.0,
+    "quantity": 5,
+    "brand": "Dell",
+    "warranty": 5
+  }
+]
