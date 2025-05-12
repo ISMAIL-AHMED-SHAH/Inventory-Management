@@ -16,5 +16,14 @@
     "quantity": 5,
     "brand": "Dell",
     "warranty": 5
+  },
+  {
+    "__type__": "Clothing",
+    "product_id": "0011",
+    "name": "Shirts",
+    "price": 500.0,
+    "quantity": 10,
+    "size": "S",
+    "material": "Light for summer"
   }
 ]
